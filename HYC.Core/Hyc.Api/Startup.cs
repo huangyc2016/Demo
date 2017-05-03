@@ -27,8 +27,11 @@ namespace Hyc.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //注入配置文件
+            services.AddSingleton(Configuration);
             //依赖注入模块
             services.AddSingleton<Repository.IUserRepository, Repository.UserRepository>();
+            
 
             //添加swagger
             services.AddSwaggerGen();

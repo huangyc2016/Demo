@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hyc.Model.TableModel;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,17 +13,28 @@ namespace Hyc.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private Repository.IUserRepository _UserTodo { get; set; }
-        public UsersController(Repository.IUserRepository userTodo)
+        /// <summary>
+        /// 操作数据库接口
+        /// </summary>
+        private Repository.IUserRepository _userTodo { get; set; }
+
+        /// <summary>
+        /// 连接数据库字符串
+        /// </summary>
+        private string _connectionstring { get; set; }
+
+        public UsersController(Repository.IUserRepository userTodo, IConfigurationRoot configuration)
         {
-            this._UserTodo = userTodo;
+            this._userTodo = userTodo;
+            this._connectionstring = configuration.GetConnectionString("DefaultConnection");
         }
 
         // GET: api/values
         [HttpGet]
         public IActionResult Get()
         {
-            User u = this._UserTodo.RetriveOneEntityById(10000, null);
+           
+            User u = this._userTodo.RetriveOneEntityById(10000, _connectionstring);
             return new ObjectResult(u);
         }
 
