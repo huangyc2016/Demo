@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Hyc.Admin
+namespace Hyc.Api
 {
     public class Startup
     {
@@ -27,9 +27,11 @@ namespace Hyc.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //
             //依赖注入模块
             services.AddSingleton<Repository.IUserRepository, Repository.UserRepository>();
+
+            //添加swagger
+            services.AddSwaggerGen();
 
             // Add framework services.
             services.AddMvc();
@@ -41,24 +43,11 @@ namespace Hyc.Admin
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            //添加swagger
+            app.UseSwagger();
+            app.UseSwaggerUi();
 
-            app.UseStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
     }
 }
