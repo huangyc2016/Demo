@@ -33,10 +33,16 @@ namespace Hyc.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-           
+
             User u = this._userTodo.RetriveOneEntityById(10000, _connectionstring);
             return new ObjectResult(u);
         }
+        //[HttpGet]
+        //public async Task<User> Get()
+        //{
+        //    User u = await this._userTodo.RetriveOneEntityByIdAsync(10000, _connectionstring);
+        //    return u;
+        //}
 
         // GET api/values/5
         [HttpGet("{id}")]

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Hyc.Repository
 {
@@ -83,6 +84,7 @@ namespace Hyc.Repository
             }
         }
 
+
         /// <summary>
         /// 根据主键Id获取一个用户
         /// </summary>
@@ -91,22 +93,33 @@ namespace Hyc.Repository
         /// <returns></returns>
         public User RetriveOneEntityById(int id, string connectionString = null)
         {
+            //using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
+            //{
+            //    string querySql = @"SELECT [Id]
+            //                               ,[UserName]
+            //                               ,[Password]
+            //                               ,[Gender]
+            //                               ,[Birthday]
+            //                               ,[CreateUserId]
+            //                               ,[CreateDate]
+            //                               ,[UpdateUserId]
+            //                               ,[UpdateDate]
+            //                               ,[IsDeleted]
+            //                           FROM [dbo].[User]
+            //                          WHERE Id = @Id";
+            //    return conn.QueryFirstOrDefault<User>(querySql, new { Id = id });
+            //}
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
-                string querySql = @"SELECT [Id]
-                                           ,[UserName]
-                                           ,[Password]
-                                           ,[Gender]
-                                           ,[Birthday]
-                                           ,[CreateUserId]
-                                           ,[CreateDate]
-                                           ,[UpdateUserId]
-                                           ,[UpdateDate]
-                                           ,[IsDeleted]
-                                       FROM [dbo].[User]
-                                      WHERE Id = @Id";
-                return conn.QueryFirstOrDefault<User>(querySql, new { Id = id });
+                return conn.QueryFirstOrDefault<User>("sp_GetUsers", new { Id = id }, commandType: CommandType.StoredProcedure);
             }
+        }
+        public async Task<User> RetriveOneEntityByIdAsync(int id, string connectionString = null)
+        {
+            
+            IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString);
+            User x = await conn.QueryFirstOrDefaultAsync<User>("sp_GetUsers", new { Id = id }, commandType: CommandType.StoredProcedure);
+            return x;
         }
 
         /// <summary>

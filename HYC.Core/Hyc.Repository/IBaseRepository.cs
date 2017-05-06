@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Hyc.Repository
 {
@@ -28,6 +29,8 @@ namespace Hyc.Repository
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
         IEnumerable<T> RetriveAllEntity(string connectionString = null);
+
+        Task<T> RetriveOneEntityByIdAsync(int id, string connectionString = null);
 
         /// <summary>
         /// 修改一个实体

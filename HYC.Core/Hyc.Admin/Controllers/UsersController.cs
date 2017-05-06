@@ -22,7 +22,8 @@ namespace Hyc.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View(this._UserTodo.RetriveOneEntityById(10000, null));
+            var item = this._UserTodo.RetriveOneEntityById(10000, null);
+            return View(item);
         }
     }
 }
