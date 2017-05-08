@@ -8,6 +8,8 @@
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
 
+
+
   <ItemGroup>
     <Content Include="wwwroot\css\AdminLTE.css" />
     <Content Include="wwwroot\css\AdminLTE.min.css" />
@@ -19,6 +21,8 @@
     <Content Include="wwwroot\css\alt\AdminLTE-select2.min.css" />
     <Content Include="wwwroot\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="wwwroot\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="wwwroot\css\font-awesome.css" />
+    <Content Include="wwwroot\css\font-awesome.min.css" />
     <Content Include="wwwroot\css\skins\skin-black-light.css" />
     <Content Include="wwwroot\css\skins\skin-black-light.min.css" />
     <Content Include="wwwroot\css\skins\skin-black.css" />
@@ -45,6 +49,7 @@
     <Content Include="wwwroot\css\skins\skin-yellow.min.css" />
     <Content Include="wwwroot\css\skins\_all-skins.css" />
     <Content Include="wwwroot\css\skins\_all-skins.min.css" />
+    <Content Include="wwwroot\css\.css" />
     <Content Include="wwwroot\images\avatar.png" />
     <Content Include="wwwroot\images\avatar04.png" />
     <Content Include="wwwroot\images\avatar2.png" />
