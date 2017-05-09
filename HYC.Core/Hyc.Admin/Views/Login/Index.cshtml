@@ -2,6 +2,7 @@
 @{
     Layout = null;
 }
+@model LoginModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,6 +48,7 @@
             <p class="login-box-msg">权限管理系统</p>
             <div asp-validation-summary="All" class="text-danger"></div>
             <form asp-controller="Login" asp-action="Index" method="post">
+                <input id="errorInfo" type="hidden" value="@ViewBag.ErrorInfo" />
                 <div class="form-group has-feedback">
                     <input asp-for="UserName" type="text" class="form-control" placeholder="用户名">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -66,7 +68,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+                        <button type="submit" id="btnLogin" class="btn btn-primary btn-block btn-flat">登录</button>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -74,12 +76,13 @@
         </div>
         <!-- /.login-box-body -->
     </div>
-    <!-- /.login-box -->
+
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/iCheck/icheck.js" asp-append-version="true"></script>
+        <script src="~/lib/layer/src/layer.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -95,6 +98,7 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/lib/iCheck/icheck.js"></script>
+        <script src="~/lib/layer/build/layer.js"></script>
     </environment>
 
     <script>
@@ -104,7 +108,13 @@
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional
             });
+            //显示服务端验证的错误信息
+            if ($("#errorInfo").val()) {
+                layer.tips($("#errorInfo").val(), "#btnLogin");
+            };
+
         });
     </script>
 </body>
+
 </html>

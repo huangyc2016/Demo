@@ -116,10 +116,10 @@ namespace Hyc.Repository
         }
         public async Task<User> RetriveOneEntityByIdAsync(int id, string connectionString = null)
         {
-            
-            IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString);
-            User x = await conn.QueryFirstOrDefaultAsync<User>("sp_GetUsers", new { Id = id }, commandType: CommandType.StoredProcedure);
-            return x;
+            using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
+            {
+                return  await conn.QueryFirstOrDefaultAsync<User>("sp_GetUsers", new { Id = id }, commandType: CommandType.StoredProcedure);
+            }
         }
 
         /// <summary>
@@ -142,6 +142,17 @@ namespace Hyc.Repository
                                            ,[IsDeleted] = @IsDeleted
                                       WHERE Id = @Id";
                 return conn.Execute(updateSql, entity) > 0;
+            }
+        }
+
+        public  User CheckUser(string UserName, string Password, string connectionString = null)
+        {
+            using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
+            {
+                string querySql = @"SELECT [Id],[UserName],[Password],[Gender],[Birthday],[CreateUserId],[CreateDate],[UpdateUserId],[UpdateDate],[IsDeleted]
+                                    FROM [dbo].[User]
+                                    WHERE UserName = @UserName AND Password=@Password";
+                return  conn.QueryFirstOrDefault<User>(querySql, new { UserName = UserName , Password = Password });
             }
         }
     }

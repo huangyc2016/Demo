@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hyc.Admin.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private Repository.IUserRepository _UserTodo { get; set; }
         public UsersController(Repository.IUserRepository userTodo)
