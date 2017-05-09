@@ -33,6 +33,9 @@ namespace Hyc.Admin
 
             // Add framework services.
             services.AddMvc();
+
+            //Add Session服务
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,14 +54,20 @@ namespace Hyc.Admin
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            //静态文件
             app.UseStaticFiles();
 
+            //session
+            app.UseSession();
+
+            //默认路由
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Login}/{action=Index}/{id?}");
             });
+
         }
     }
 }
