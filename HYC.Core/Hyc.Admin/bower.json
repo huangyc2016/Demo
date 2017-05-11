@@ -8,6 +8,7 @@
     "jquery-validation-unobtrusive": "3.2.6",
     "iCheck": "1.0.2",
     "font-awesome": "Font-Awesome#v4.7.0",
-    "layer": "3.0.3"
+    "layer": "3.0.3",
+    "jstree": "3.3.4"
   }
 }

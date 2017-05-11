@@ -13,13 +13,13 @@ namespace Hyc.Admin.Controllers
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            byte[] result;
-            context.HttpContext.Session.TryGetValue("CurrentUser", out result);
-            if (result == null)
-            {
-                context.Result = new RedirectResult("/Login/Index");
-                return;
-            }
+            //byte[] result;
+            //context.HttpContext.Session.TryGetValue("CurrentUser", out result);
+            //if (result == null)
+            //{
+            //    context.Result = new RedirectResult("/Login/Index");
+            //    return;
+            //}
 
             base.OnActionExecuting(context);
         }

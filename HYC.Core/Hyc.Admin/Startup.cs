@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Hyc.Service;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Hyc.Admin
 {
@@ -20,6 +23,9 @@ namespace Hyc.Admin
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            
+            //初始化映射
+            AdminMapper.Initialize();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -29,7 +35,11 @@ namespace Hyc.Admin
         {
             //
             //依赖注入模块
+            services.AddSingleton<Repository.IMenuRepository, Repository.MenuRepository>();
             services.AddSingleton<Repository.IUserRepository, Repository.UserRepository>();
+
+            services.AddSingleton<Service.IMenuService, Service.MenuService>();
+            services.AddSingleton<Service.IUserService, Service.UserService>();
 
             // Add framework services.
             services.AddMvc();
@@ -57,6 +67,11 @@ namespace Hyc.Admin
             //静态文件
             app.UseStaticFiles();
 
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory())
+            });
+
             //session
             app.UseSession();
 
@@ -65,7 +80,7 @@ namespace Hyc.Admin
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
 
         }

@@ -11,8 +11,8 @@ namespace Hyc.Admin.Controllers
 {
     public class LoginController : Controller
     {
-        private Repository.IUserRepository _UserTodo { get; set; }
-        public LoginController(Repository.IUserRepository userTodo) {
+        private Service.IUserService _UserTodo { get; set; }
+        public LoginController(Service.IUserService userTodo) {
             this._UserTodo = userTodo;
         }
 

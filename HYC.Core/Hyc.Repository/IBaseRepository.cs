@@ -30,8 +30,6 @@ namespace Hyc.Repository
         /// <returns></returns>
         IEnumerable<T> RetriveAllEntity(string connectionString = null);
 
-        Task<T> RetriveOneEntityByIdAsync(int id, string connectionString = null);
-
         /// <summary>
         /// 修改一个实体
         /// </summary>
@@ -47,5 +45,12 @@ namespace Hyc.Repository
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
         bool DeleteEntityById(int id, string connectionString = null);
+
+        /// <summary>
+        /// 获取实体(根据特定的语句)
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+        IEnumerable<T> RetriveEntity(string connectionString = null);
     }
 }
