@@ -48,7 +48,7 @@ namespace Hyc.Model.TableModel
         /// <summary>
         /// 添加时间
         /// </summary>
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 菜单备注

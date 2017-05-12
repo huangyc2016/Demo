@@ -13,7 +13,7 @@ namespace Hyc.Repository
         /// <param name="entity">要创建的实体</param>
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
-        bool CreateEntity(T entity, string connectionString = null);
+        bool InsertEntity(T entity, string connectionString = null);
 
         /// <summary>
         /// 根据主键Id获取一个实体
@@ -22,6 +22,7 @@ namespace Hyc.Repository
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
         T RetriveOneEntityById(int id, string connectionString = null);
+
 
         /// <summary>
         /// 获取所有实体
@@ -45,6 +46,7 @@ namespace Hyc.Repository
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
         bool DeleteEntityById(int id, string connectionString = null);
+
 
         /// <summary>
         /// 获取实体(根据特定的语句)

@@ -16,7 +16,7 @@ namespace Hyc.Repository
         /// <param name="entity">用户</param>
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
-        public bool CreateEntity(User entity, string connectionString = null)
+        public bool InsertEntity(User entity, string connectionString = null)
         {
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {

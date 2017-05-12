@@ -8,22 +8,28 @@ using System.Text;
 namespace Hyc.Repository
 {
     public class MenuRepository : IMenuRepository
-    {/// <summary>
-     /// 创建一个用户
-     /// </summary>
-     /// <param name="entity">用户</param>
-     /// <param name="connectionString">链接字符串</param>
-     /// <returns></returns>
-        public bool CreateEntity(Menu entity, string connectionString = null)
+    {
+        /// <summary>
+        /// 创建一个用户
+        /// </summary>
+        /// <param name="entity">用户</param>
+        /// <param name="connectionString">链接字符串</param>
+        /// <returns></returns>
+        public bool InsertEntity(Menu entity, string connectionString = null)
         {
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
                 string insertSql = @"INSERT INTO [dbo].[Menu]
-                                            ([ParentId],[SerialNumber],[Name],[Code],[Url],[Type],[Icon],[CreateDate],[Remarks])
+                                            ([Id],[ParentId],[SerialNumber],[Name],[Code],[Url],[Type],[Icon],[CreateDate],[Remarks])
                                       VALUES
-                                            (@ParentId,@SerialNumber,@Name,@Code,@Url,@Type,@Icon,@CreateDate,@Remarks)";
+                                            (@Id,@ParentId,@SerialNumber,@Name,@Code,@Url,@Type,@Icon,@CreateDate,@Remarks)";
                 return conn.Execute(insertSql, entity) > 0;
             }
+        }
+
+        public bool DeleteEntityById(int id, string connectionString = null)
+        {
+            return false;
         }
 
         /// <summary>
@@ -32,7 +38,7 @@ namespace Hyc.Repository
         /// <param name="id">主键Id</param>
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
-        public bool DeleteEntityById(int id, string connectionString = null)
+        public bool DeleteEntityById(Guid id, string connectionString = null)
         {
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
@@ -52,7 +58,7 @@ namespace Hyc.Repository
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
                 string querySql = @"SELECT [Id],[ParentId],[SerialNumber],[Name],[Code],[Url],[Type],[Icon],[CreateDate],[Remarks]
-                                       FROM [dbo].[Menu]";
+                                       FROM [dbo].[Menu] ORDER BY SerialNumber ASC";
                 return conn.Query<Menu>(querySql);
             }
         }
@@ -62,9 +68,14 @@ namespace Hyc.Repository
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
                 string querySql = @"SELECT [Id],[ParentId],[SerialNumber],[Name],[Code],[Url],[Type],[Icon],[CreateDate],[Remarks]
-                                       FROM [dbo].[Menu]";
+                                       FROM [dbo].[Menu] ORDER BY SerialNumber ASC";
                 return conn.Query<Menu>(querySql);
             }
+        }
+
+        public Menu RetriveOneEntityById(int id, string connectionString = null)
+        {
+            return null;
         }
 
 
@@ -74,13 +85,13 @@ namespace Hyc.Repository
         /// <param name="id">主键Id</param>
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
-        public Menu RetriveOneEntityById(int id, string connectionString = null)
+        public Menu RetriveOneEntityById(Guid id, string connectionString = null)
         {
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
-                string querySql = @"[Id],[ParentId],[SerialNumber],[Name],[Code],[Url],[Type],[Icon],[CreateDate],[Remarks]
+                string querySql = @"SELECT [Id],[ParentId],[SerialNumber],[Name],[Code],[Url],[Type],[Icon],[CreateDate],[Remarks]
                                        FROM [dbo].[Menu]
-                                      WHERE Id = @Id";
+                                      WHERE Id = @Id ";
                 return conn.QueryFirstOrDefault<Menu>(querySql, new { Id = id });
             }
         }
@@ -104,6 +115,24 @@ namespace Hyc.Repository
                                            ,[Remarks] = @Remarks
                                       WHERE Id = @Id";
                 return conn.Execute(updateSql, entity) > 0;
+            }
+        }
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="startPage">页码</param>
+        /// <param name="pageSize">单页数据数</param>
+        /// <param name="rowCount">行数</param>
+        /// <param name="where">条件</param>
+        /// <param name="order">排序</param>
+        /// <returns></returns>
+        public IEnumerable<Menu> LoadPageList(Guid parentId, int startPage, int pageSize, out int rowCount, string connectionString = null)
+        {
+            rowCount = 1;
+            using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
+            {
+                return conn.Query<Menu>("sp_GetMenus", new { ParentId = parentId }, commandType: CommandType.StoredProcedure);
             }
         }
     }

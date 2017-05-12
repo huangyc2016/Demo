@@ -22,7 +22,7 @@ namespace Hyc.Service.Dtos
         /// <summary>
         /// 菜单名称
         /// </summary>
-        //[Required(ErrorMessage = "功能名称不能为空")]
+        [Required(ErrorMessage = "功能名称不能为空")]
         public string Name { get; set; }
 
         /// <summary>
