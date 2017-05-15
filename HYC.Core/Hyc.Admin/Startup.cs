@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Hyc.Service;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Hyc.Admin
 {
@@ -41,11 +42,15 @@ namespace Hyc.Admin
             services.AddSingleton<Service.IMenuService, Service.MenuService>();
             services.AddSingleton<Service.IUserService, Service.UserService>();
 
+            //Add Session服务
+            services.AddSession();
+
+            //add AddAuthorization
+            services.AddAuthorization();
+
             // Add framework services.
             services.AddMvc();
 
-            //Add Session服务
-            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +79,25 @@ namespace Hyc.Admin
 
             //session
             app.UseSession();
+
+            //cookie
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "UserAuth",    // Cookie 验证方案名称，在写cookie时会用到。
+                AutomaticAuthenticate = true,     // 是否自动启用验证，如果不启用，则即便客服端传输了Cookie信息，服务端也不会主动解析。除了明确配置了 [Authorize(ActiveAuthenticationSchemes = "上面的方案名")] 属性的地方，才会解析，此功能一般用在需要在同一应用中启用多种验证方案的时候。比如分Area.
+                LoginPath = "/User/Index"   // 登录页
+            });
+
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "MyCookieMiddlewareInstance",
+                LoginPath = new PathString("/Account/Unauthorized/"),
+                AccessDeniedPath = new PathString("/Account/Forbidden/"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
+
 
             //默认路由
             app.UseMvc(routes =>
