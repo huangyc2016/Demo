@@ -11,6 +11,7 @@ using Hyc.Service;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Hyc.Admin.Policy;
 
 namespace Hyc.Admin
 {
@@ -24,7 +25,7 @@ namespace Hyc.Admin
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-            
+
             //初始化映射
             AdminMapper.Initialize();
         }
@@ -46,11 +47,16 @@ namespace Hyc.Admin
             services.AddSession();
 
             //add AddAuthorization
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserId"));
+                options.AddPolicy("UserOnly1", policy => policy.RequireClaim("UserId1"));
+                options.AddPolicy("Over21", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
+                options.AddPolicy("Passport", policy => policy.Requirements.Add(new PassportRequirement()));
+            });
 
             // Add framework services.
             services.AddMvc();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,17 +91,10 @@ namespace Hyc.Admin
             {
                 AuthenticationScheme = "UserAuth",    // Cookie 验证方案名称，在写cookie时会用到。
                 AutomaticAuthenticate = true,     // 是否自动启用验证，如果不启用，则即便客服端传输了Cookie信息，服务端也不会主动解析。除了明确配置了 [Authorize(ActiveAuthenticationSchemes = "上面的方案名")] 属性的地方，才会解析，此功能一般用在需要在同一应用中启用多种验证方案的时候。比如分Area.
-                LoginPath = "/User/Index"   // 登录页
-            });
+                LoginPath = "/Login/Index",   // 登录页
+                AccessDeniedPath = new PathString("/Login/Forbidden/"),//禁止访问页
+                AutomaticChallenge = true     //
 
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = "MyCookieMiddlewareInstance",
-                LoginPath = new PathString("/Account/Unauthorized/"),
-                AccessDeniedPath = new PathString("/Account/Forbidden/"),
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true
             });
 
 

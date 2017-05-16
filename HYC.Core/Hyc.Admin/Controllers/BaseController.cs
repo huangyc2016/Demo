@@ -23,9 +23,7 @@ namespace Hyc.Admin.Controllers
             //}
 
             var userName = User.Identity.Name;
-            var claim = User.FindFirst(ClaimTypes.Sid);
-            //var userId = User.FindFirst(ClaimTypes.Sid).Value; // 获取登录时存储的Id
-            if (string.IsNullOrEmpty(userName) && claim != null)
+            if (string.IsNullOrEmpty(userName))
             {
                 context.Result = new RedirectResult("/Login/Index");
                 return;

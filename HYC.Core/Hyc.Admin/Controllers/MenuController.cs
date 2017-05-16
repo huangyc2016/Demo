@@ -6,9 +6,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hyc.Admin.Models;
 using Hyc.Service.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hyc.Admin.Controllers
 {
+    //[Authorize]
+    //[Authorize(Roles = "Administrator")]
+    [Authorize(Policy = "UserOnly")]
     public class MenuController : BaseController
     {
         private readonly IMenuService _menuService;
@@ -43,6 +47,7 @@ namespace Hyc.Admin.Controllers
         /// 获取子级功能列表
         /// </summary>
         /// <returns></returns>
+
         public IActionResult GetMneusByParent(Guid parentId, int startPage, int pageSize)
         {
             int rowCount = 0;
@@ -109,6 +114,7 @@ namespace Hyc.Admin.Controllers
                 });
             }
         }
+
         public IActionResult Delete(Guid id)
         {
             try
