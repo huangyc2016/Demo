@@ -1,57 +1,35 @@
-﻿using Hyc.Service;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hyc.Admin.Models;
+using Microsoft.AspNetCore.Mvc;
+using Hyc.Service;
 using Hyc.Service.Dtos;
-using Microsoft.AspNetCore.Authorization;
+
+// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hyc.Admin.Controllers
 {
-    //[Authorize]
-    //[Authorize(Roles = "Administrator")]
-    [Authorize(Policy = "UserOnly")]
-    public class MenuController : BaseController
+    public class AccountController :  BaseController
     {
-        private readonly IMenuService _menuService;
-        public MenuController(IMenuService menuService)
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
+        public AccountController(IUserService userService, IRoleService roleService)
         {
-            _menuService = menuService;
+            this._userService = userService;
+            this._roleService = roleService;
         }
-
-        public IActionResult Index()
+        // GET: /<controller>/
+        public IActionResult RoleIndex()
         {
             return View();
         }
 
-        /// <summary>
-
-        /// 获取功能树JSON数据
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IActionResult GetMenuTreeData()
-        {
-            var menus = _menuService.GetAllList();
-            List<TreeModel> treeModels = new List<TreeModel>();
-            foreach (var menu in menus)
-            {
-                treeModels.Add(new TreeModel() { id = menu.Id.ToString(), text = menu.Name, parent = menu.ParentId == 0 ? "#" : menu.ParentId.ToString() });
-            }
-            return Json(treeModels);
-        }
-
-        /// <summary>
-        /// 获取子级功能列表
-        /// </summary>
-        /// <returns></returns>
-
-        public IActionResult GetMneusByParent(int parentId, int startPage, int pageSize)
+        public IActionResult GetRoleList(int startPage, int pageSize)
         {
             int rowCount = 0;
-            var result = _menuService.GetMenusByParent(parentId, startPage, pageSize, out rowCount);
+            var result = _roleService.GetAllList();
+            rowCount = result.Count();
             return Json(new
             {
                 rowCount = rowCount,
@@ -61,11 +39,12 @@ namespace Hyc.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int Id)
+        public IActionResult GetRoleById(int Id)
         {
-            var result = _menuService.Get(Id);
+            var result = _roleService.Get(Id);
             return Json(result);
         }
+
 
         [HttpPost]
         /// <summary>
@@ -73,7 +52,7 @@ namespace Hyc.Admin.Controllers
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public IActionResult Edit(MenuDto dto)
+        public IActionResult EditRole(RoleDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -83,21 +62,22 @@ namespace Hyc.Admin.Controllers
                     Message = GetModelStateError()
                 });
             }
-            if (_menuService.InsertOrUpdate(dto))
+            if (_roleService.InsertOrUpdate(dto))
             {
-                return Json(new { Result = "Success", Message="保存成功" });
+                return Json(new { Result = "Success", Message = "保存成功" });
             }
             return Json(new { Result = "Faild", Message = "保存失败" });
         }
 
-        public IActionResult DeleteMuti(string ids)
+        [HttpPost]
+        public IActionResult DeleteMutiRole(string ids)
         {
             try
             {
                 string[] idArray = ids.Split(',');
                 foreach (string id in idArray)
                 {
-                    _menuService.Delete(int.Parse(id));
+                    _roleService.Delete(int.Parse(id));
                 }
                 return Json(new
                 {
@@ -114,11 +94,12 @@ namespace Hyc.Admin.Controllers
             }
         }
 
-        public IActionResult Delete(int id)
+        [HttpPost]
+        public IActionResult DeleteRole(int id)
         {
             try
             {
-                _menuService.Delete(id);
+                _roleService.Delete(id);
                 return Json(new
                 {
                     Result = "Success"
@@ -132,6 +113,11 @@ namespace Hyc.Admin.Controllers
                     Message = ex.Message
                 });
             }
+        }
+
+        public IActionResult UserIndex()
+        {
+            return View();
         }
     }
 }

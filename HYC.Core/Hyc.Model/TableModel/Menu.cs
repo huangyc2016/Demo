@@ -4,21 +4,29 @@ using System.Text;
 
 namespace Hyc.Model.TableModel
 {
+    /// <summary>
+    /// 菜单类
+    /// </summary>
     public class Menu 
     {
         /// <summary>
-        /// Id
+        /// 菜单Id
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
-        /// 父级ID
+        /// 菜单父级ID
         /// </summary>
-        public Guid ParentId { get; set; }
+        public int ParentId { get; set; }
 
         /// <summary>
-        /// 序号
+        /// 排序号
         /// </summary>
-        public int SerialNumber { get; set; }
+        public int SortNum { get; set; }
+
+        /// <summary>
+        /// 层级深度
+        /// </summary>
+        public int DepthNum { get; set; }
 
         /// <summary>
         /// 菜单名称
@@ -36,7 +44,7 @@ namespace Hyc.Model.TableModel
         public string Url { get; set; }
 
         /// <summary>
-        /// 类型：0导航菜单；1操作按钮。
+        /// 0:功能菜单;1:操作按钮
         /// </summary>
         public int Type { get; set; }
 
@@ -46,13 +54,8 @@ namespace Hyc.Model.TableModel
         public string Icon { get; set; }
 
         /// <summary>
-        /// 添加时间
+        /// 菜单说明描述
         /// </summary>
-        public DateTime CreateDate { get; set; } = DateTime.Now;
-
-        /// <summary>
-        /// 菜单备注
-        /// </summary>
-        public string Remarks { get; set; }
+        public string Description { get; set; }
     }
 }

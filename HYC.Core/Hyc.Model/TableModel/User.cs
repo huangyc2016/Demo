@@ -12,6 +12,11 @@ namespace Hyc.Model.TableModel
         public int Id { get; set; }
 
         /// <summary>
+        /// 用户角色Id
+        /// </summary>
+        public int RoleId { get; set; }
+
+        /// <summary>
         /// 用户名
         /// </summary>
         public string UserName { get; set; }
@@ -50,11 +55,6 @@ namespace Hyc.Model.TableModel
         /// 登录次数
         /// </summary>
         public int LoginTimes { get; set; }
-
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public string Remarks { get; set; }
 
         /// <summary>
         /// 是否删除

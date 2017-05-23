@@ -7,7 +7,7 @@ using Hyc.Service.Dtos;
 
 namespace Hyc.Service
 {
-    public class AdminMapper
+    public class ApiMapper
     {
         public static void Initialize()
         {
@@ -19,10 +19,6 @@ namespace Hyc.Service
                 //用户
                 cfg.CreateMap<User, UserDto>();
                 cfg.CreateMap<UserDto, User>();
-
-                //用户角色
-                cfg.CreateMap<Role, RoleDto>();
-                cfg.CreateMap<RoleDto, Role>();
             });
         }
     }

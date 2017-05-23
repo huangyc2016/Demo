@@ -5,23 +5,23 @@ using System.Text;
 namespace Hyc.Model.TableModel
 {
     /// <summary>
-    /// 用户角色类
+    /// 功能授权类
     /// </summary>
-    public class Role
+    public class ActionAuthorize
     {
         /// <summary>
-        ///角色Id
+        /// 功能授权Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// 角色名称
+        /// 菜单授权Id
         /// </summary>
-        public string Name { get; set; }
+        public int MenuAuthorizeId { get; set; }
 
         /// <summary>
-        /// 角色描述
+        /// 功能Id
         /// </summary>
-        public string Description { get; set; }
+        public int ActionId { get; set; }
     }
 }

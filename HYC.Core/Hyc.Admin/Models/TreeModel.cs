@@ -7,8 +7,8 @@ namespace Hyc.Admin.Models
 {
     public class TreeModel
     {
-        public string Id { get; set; }
-        public string Text { get; set; }
-        public string Parent { get; set; }
+        public string id { get; set; }
+        public string text { get; set; }
+        public string parent { get; set; }
     }
 }

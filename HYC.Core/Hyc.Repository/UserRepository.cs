@@ -59,16 +59,6 @@ namespace Hyc.Repository
             }
         }
 
-        public IEnumerable<User> RetriveEntity(string connectionString = null)
-        {
-            using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
-            {
-                string querySql = @"SELECT [Id],[UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[LoginTimes],[CreateDate],[IsDeleted]
-                                       FROM [dbo].[User]";
-                return conn.Query<User>(querySql);
-            }
-        }
-
 
         /// <summary>
         /// 根据主键Id获取一个用户

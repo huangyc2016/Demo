@@ -2,25 +2,36 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hyc.Model.TableModel
+namespace Hyc.Service.Dtos
 {
     /// <summary>
-    /// 用户角色类
+    /// 功能类
     /// </summary>
-    public class Role
+    public class ActionDto
     {
         /// <summary>
-        ///角色Id
+        /// 功能Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// 角色名称
+        /// 功能名称
         /// </summary>
         public string Name { get; set; }
 
+
         /// <summary>
-        /// 角色描述
+        /// 功能组Id
+        /// </summary>
+        public int ActionGroupId { get; set; }
+
+        /// <summary>
+        /// 控制器Id
+        /// </summary>
+        public int ControllerId { get; set; }
+
+        /// <summary>
+        /// 功能描述
         /// </summary>
         public string Description { get; set; }
     }

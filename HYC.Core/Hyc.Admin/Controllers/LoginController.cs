@@ -36,16 +36,8 @@ namespace Hyc.Admin.Controllers
                     //记录Session
                     /////HttpContext.Session.Set("CurrentUser", Utility.ByteConvertHelper.ObjectToBytes(user));
 
-                    ////记录cookie
-                    //验证方式
-                    if (model.UserName.ToLower() == "admin")
-                    {
-                        WriteUser(4, model.UserName, model.Password);
-                    }
-                    if (model.UserName.ToLower() == "huangyc")
-                    {
-                        WriteUser1(5, model.UserName, model.Password);
-                    }
+                    //记录cookie
+                    WriteUser(4, model.UserName, model.Password);
                     //跳转到系统首页
                     return RedirectToAction("Index", "Home");
                 }
@@ -74,30 +66,7 @@ namespace Hyc.Admin.Controllers
             await HttpContext.Authentication.SignInAsync("UserAuth", userPrincipal,
                 new AuthenticationProperties
                 {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(2),
-                    IsPersistent = false,
-                    AllowRefresh = false
-                });
-        }
-
-        private async void WriteUser1(int userId, string userName, string password)
-        {
-            List<Claim> claims = new List<Claim>();//定义声明
-            claims.Add(new Claim(ClaimTypes.Name, userName, ClaimValueTypes.String, "http://contoso.com"));//管理员名称
-            claims.Add(new Claim(ClaimTypes.Role, "Development", ClaimValueTypes.String, "http://contoso.com"));//管理员角色
-            claims.Add(new Claim("UserId1", userId.ToString(), ClaimValueTypes.String, "http://contoso.com"));//管理员帐号
-            claims.Add(new Claim(ClaimTypes.DateOfBirth, "1990-01-01", ClaimValueTypes.Date, "http://contoso.com"));//日期
-            claims.Add(new Claim(ClaimTypes.UserData, ",1,2,", ClaimValueTypes.String, "http://contoso.com"));//可以访问的资源
-            //claims.Add(new Claim(ClaimTypes.UserData, "[{ControllerName:Users,ActionName:Index},{ControllerName:Menu,ActionName:Index}]", ClaimValueTypes.String, "http://contoso.com"));//可以访问的资源
-            //claims.Add(new Claim("UsernameAndPassword", userName + password, ClaimValueTypes.String, "http://contoso.com"));//用户名和密码
-            //claims.Add(new Claim("AccessToken", DateTime.Now.AddMinutes(1).ToString(), ClaimValueTypes.String, "http://contoso.com"));//访问token
-            var userIdentity = new ClaimsIdentity("Forms");
-            userIdentity.AddClaims(claims);
-            var userPrincipal = new ClaimsPrincipal(userIdentity);
-            await HttpContext.Authentication.SignInAsync("UserAuth", userPrincipal,
-                new AuthenticationProperties
-                {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(2),
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
                     IsPersistent = false,
                     AllowRefresh = false
                 });
@@ -106,7 +75,7 @@ namespace Hyc.Admin.Controllers
         public async Task<ActionResult> Logout()
         {
             await HttpContext.Authentication.SignOutAsync("UserAuth");   // Startup.cs中配置的验证方案名
-            return RedirectToAction("Users", "Index");
+            return RedirectToAction("Login", "Index");
         }
 
         private int GetUserId()

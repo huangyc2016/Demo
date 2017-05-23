@@ -23,13 +23,13 @@ namespace Hyc.Service
             return Mapper.Map<List<MenuDto>>(menus);
         }
 
-        public List<MenuDto> GetMenusByParent(Guid parentId, int startPage, int pageSize, out int rowCount)
+        public List<MenuDto> GetMenusByParent(int parentId, int startPage, int pageSize, out int rowCount)
         {
             var menus = _menuRepository.LoadPageList(parentId, startPage, pageSize, out rowCount);
             return Mapper.Map<List<MenuDto>>(menus);
         }
 
-        public MenuDto Get(Guid id)
+        public MenuDto Get(int id)
         {
             var menus = _menuRepository.RetriveOneEntityById(id);
             return Mapper.Map<MenuDto>(menus);
@@ -37,12 +37,15 @@ namespace Hyc.Service
 
         public bool InsertOrUpdate(MenuDto dto)
         {
-            if (dto.Id == Guid.Empty)
+            var parent = _menuRepository.RetriveOneEntityById(dto.ParentId);
+            if (parent == null)
             {
-                dto.Id = Guid.NewGuid();
+                dto.DepthNum = 0;
             }
-            var item = _menuRepository.RetriveOneEntityById(dto.Id);
-            if (item != null)
+            else {
+                dto.DepthNum = parent.DepthNum + 1;
+            }
+            if (dto.Id>0)
             {
                 return _menuRepository.UpdateEntity(Mapper.Map<Menu>(dto));
             }
@@ -52,7 +55,7 @@ namespace Hyc.Service
             }
         }
 
-        public bool Delete(Guid Id)
+        public bool Delete(int Id)
         {
             return _menuRepository.DeleteEntityById(Id);
         }

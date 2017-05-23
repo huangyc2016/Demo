@@ -46,13 +46,5 @@ namespace Hyc.Repository
         /// <param name="connectionString">链接字符串</param>
         /// <returns></returns>
         bool DeleteEntityById(int id, string connectionString = null);
-
-
-        /// <summary>
-        /// 获取实体(根据特定的语句)
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        IEnumerable<T> RetriveEntity(string connectionString = null);
     }
 }

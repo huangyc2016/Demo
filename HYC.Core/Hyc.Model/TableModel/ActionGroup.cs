@@ -5,22 +5,23 @@ using System.Text;
 namespace Hyc.Model.TableModel
 {
     /// <summary>
-    /// 用户角色类
+    /// 功能组类
     /// </summary>
-    public class Role
+    public class ActionGroup
     {
         /// <summary>
-        ///角色Id
+        /// 功能组Id
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// 角色名称
+        /// 功能组名称
         /// </summary>
         public string Name { get; set; }
 
+
         /// <summary>
-        /// 角色描述
+        /// 功能组描述
         /// </summary>
         public string Description { get; set; }
     }

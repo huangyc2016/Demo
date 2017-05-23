@@ -12,6 +12,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Hyc.Admin.Policy;
+using Newtonsoft.Json.Serialization;
 
 namespace Hyc.Admin
 {
@@ -39,9 +40,11 @@ namespace Hyc.Admin
             //依赖注入模块
             services.AddSingleton<Repository.IMenuRepository, Repository.MenuRepository>();
             services.AddSingleton<Repository.IUserRepository, Repository.UserRepository>();
+            services.AddSingleton<Repository.IRoleRepository, Repository.RoleRepository>();
 
             services.AddSingleton<Service.IMenuService, Service.MenuService>();
             services.AddSingleton<Service.IUserService, Service.UserService>();
+            services.AddSingleton<Service.IRoleService, Service.RoleService>();
 
             //Add Session服务
             services.AddSession();
@@ -57,6 +60,12 @@ namespace Hyc.Admin
 
             // Add framework services.
             services.AddMvc();
+
+            //Add Newtonsoft.json
+            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            }); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

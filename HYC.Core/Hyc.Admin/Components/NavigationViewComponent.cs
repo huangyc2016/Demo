@@ -21,7 +21,7 @@ namespace Hyc.Admin.Components
 
         public IViewComponentResult Invoke()
         {
-            var userId = HttpContext.Session.GetString("CurrentUserId");
+            //var userId = HttpContext.Session.GetString("CurrentUserId");
             //var menus = _menuService.GetMenusByUser(Guid.Parse(userId));
             var menus = _menuService.GetAllList();
             return View(menus);

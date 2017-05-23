@@ -8,16 +8,21 @@ namespace Hyc.Service.Dtos
 {
     public class MenuDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// 父级ID
         /// </summary>
-        public Guid ParentId { get; set; }
+        public int ParentId { get; set; }
         /// <summary>
-        /// 序号
+        /// 排序号
         /// </summary>
-        public int SerialNumber { get; set; }
+        public int SortNum { get; set; }
+
+        /// <summary>
+        /// 层级深度
+        /// </summary>
+        public int DepthNum { get; set; }
 
         /// <summary>
         /// 菜单名称
@@ -34,10 +39,12 @@ namespace Hyc.Service.Dtos
         /// 菜单地址
         /// </summary>
         public string Url { get; set; }
+
         /// <summary>
-        /// 类型：0导航菜单；1操作按钮。
+        /// 0:功能菜单;1:操作按钮
         /// </summary>
         public int Type { get; set; }
+
         /// <summary>
         /// 菜单图标
         /// </summary>
@@ -47,6 +54,6 @@ namespace Hyc.Service.Dtos
         /// <summary>
         /// 菜单备注
         /// </summary>
-        public string Remarks { get; set; }
+        public string Description { get; set; }
     }
 }

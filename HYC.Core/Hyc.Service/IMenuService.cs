@@ -16,7 +16,7 @@ namespace Hyc.Service
         /// <param name="pageSize">页面大小</param>
         /// <param name="rowCount">数据总数</param>
         /// <returns></returns>
-        List<MenuDto> GetMenusByParent(Guid parentId, int startPage, int pageSize, out int rowCount);
+        List<MenuDto> GetMenusByParent(int parentId, int startPage, int pageSize, out int rowCount);
 
         /// <summary>
         /// 添加或者修改菜单
@@ -30,8 +30,8 @@ namespace Hyc.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        MenuDto Get(Guid id);
+        MenuDto Get(int id);
 
-        bool Delete(Guid Id);
+        bool Delete(int Id);
     }
 }

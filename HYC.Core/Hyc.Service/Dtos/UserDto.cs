@@ -12,6 +12,11 @@ namespace Hyc.Service.Dtos
         public int Id { get; set; }
 
         /// <summary>
+        /// 角色编号
+        /// </summary>
+        public int RoleId { get; set; }
+
+        /// <summary>
         /// 用户名
         /// </summary>
         public string UserName { get; set; }
@@ -54,7 +59,7 @@ namespace Hyc.Service.Dtos
         /// <summary>
         /// 备注
         /// </summary>
-        public string Remarks { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// 是否删除
