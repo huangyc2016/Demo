@@ -97,5 +97,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Hyc.Service\Hyc.Service.csproj" />
   </ItemGroup>
-
 </Project>
