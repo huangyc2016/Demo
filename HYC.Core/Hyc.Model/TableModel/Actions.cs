@@ -7,7 +7,7 @@ namespace Hyc.Model.TableModel
     /// <summary>
     /// 功能类
     /// </summary>
-    public class Action
+    public class Actions
     {
         /// <summary>
         /// 功能Id

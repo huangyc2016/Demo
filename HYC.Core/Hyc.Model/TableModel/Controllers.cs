@@ -7,7 +7,7 @@ namespace Hyc.Model.TableModel
     /// <summary>
     /// 控制器类
     /// </summary>
-    public class Controllerl
+    public class Controllers
     {
         /// <summary>
         /// 控制器Id
@@ -24,5 +24,13 @@ namespace Hyc.Model.TableModel
         /// 控制器描述
         /// </summary>
         public string Description { get; set; }
+
+        #region ===扩展属性===
+        /// <summary>
+        /// 所属功能项数目
+        /// </summary>
+        public int ActionNum { get; set; }
+
+        #endregion
     }
 }

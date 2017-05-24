@@ -24,5 +24,14 @@ namespace Hyc.Service.Dtos
         /// 控制器描述
         /// </summary>
         public string Description { get; set; }
+
+
+        #region ===扩展属性===
+        /// <summary>
+        /// 所属功能项数目
+        /// </summary>
+        public int ActionNum { get; set; }
+
+        #endregion
     }
 }

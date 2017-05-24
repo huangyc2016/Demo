@@ -23,6 +23,14 @@ namespace Hyc.Service
                 //用户角色
                 cfg.CreateMap<Role, RoleDto>();
                 cfg.CreateMap<RoleDto, Role>();
+
+                //控制器
+                cfg.CreateMap<Controllers, ControllerDto>();
+                cfg.CreateMap<ControllerDto, Controllers>();
+
+                //功能项
+                cfg.CreateMap<Actions, ActionDto>();
+                cfg.CreateMap<ActionDto, Actions>();
             });
         }
     }

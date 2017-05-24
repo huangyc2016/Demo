@@ -34,9 +34,6 @@ function initTree() {
                
                 var node = data.instance.get_node(data.selected[0]);  //获取选中的节点
                 if (node) {
-                    console.log('data', data);
-                    console.log('e', e);
-                    console.log('node', node);
                     selectedMenuName = node.text;
                     selectedMenuId = node.id;
                     loadTables(1, 2);

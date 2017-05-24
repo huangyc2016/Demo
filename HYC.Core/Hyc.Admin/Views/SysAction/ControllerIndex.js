@@ -3,39 +3,27 @@
     $("#btnSave").click(function () { save(); });
     $("#btnDelete").click(function () { deleteMulti(); });
     $("#checkAll").click(function () { checkAll(this) });
-    loadTables(1,10);
+    loadTables();
 });
 
 //加载列表数据
-function loadTables(startPage, pageSize) {
+function loadTables() {
     $("#tableBody").html("");
     $("#checkAll").prop("checked", false);
     $.ajax({
         type: "GET",
-        url: "/Account/GetRoleList?startPage=" + startPage + "&pageSize=" + pageSize + "&_t=" + new Date().getTime(),
+        url: "/SysAction/GetControllerList?_t=" + new Date().getTime(),
         success: function (data) {
             $.each(data.rows, function (i, item) {
                 var tr = "<tr>";
-                tr += "<td align='center'><input type='checkbox' class='checkboxs' value='" + item.id + "'/></td>";
+                tr += "<td align='center'><input type='checkbox' class='checkboxs' value='" + item.Id + "'/></td>";
                 tr += "<td>" + item.Name + "</td>";
+                tr += "<td><a class='btn btn-link' href='javascript:;' onclick='toAction(\"" + item.Id + "\")'>" + item.ActionNum + "</a></td>";
                 tr += "<td>" + (item.Description == null ? "" : item.Description) + "</td>";
                 tr += "<td><button class='btn btn-info btn-xs' href='javascript:;' onclick='edit(\"" + item.Id + "\")'><i class='fa fa-edit'></i> 编辑 </button> <button class='btn btn-danger btn-xs' href='javascript:;' onclick='deleteSingle(\"" + item.Id + "\")'><i class='fa fa-trash-o'></i> 删除 </button> </td>"
                 tr += "</tr>";
                 $("#tableBody").append(tr);
             })
-            var elment = $("#grid_paging_part"); //分页插件的容器id
-            if (data.rowCount > 0) {
-                var options = { //分页插件配置项
-                    bootstrapMajorVersion: 3,
-                    currentPage: startPage, //当前页
-                    numberOfPages: data.rowsCount, //总数
-                    totalPages: data.pageCount, //总页数
-                    onPageChanged: function (event, oldPage, newPage) { //页面切换事件
-                        loadTables(newPage, pageSize);
-                    }
-                }
-                elment.bootstrapPaginator(options); //分页插件初始化
-            }
         }
     })
 }
@@ -54,17 +42,22 @@ function checkAll(obj) {
 //新增
 function add() {
     $("#Id").val("0");
-    $("#Title").text("新增角色");
+    $("#Title").text("新增控制器");
     $("#Name").val("");
     $("#Description").val("");
     //弹出新增窗体
     $("#addRootModal").modal("show");
 };
+
+function toAction(id) {
+    window.location.href = "/SysAction/ActionIndex?ControllerId=" + id + "";
+}
+
 //编辑
 function edit(id) {
     $.ajax({
         type: "Get",
-        url: "/Account/GetRoleById?id=" + id + "&_t=" + new Date(),
+        url: "/SysAction/GetControllerById?id=" + id + "&_t=" + new Date(),
         success: function (data) {
             $("#Id").val(data.Id);
             $("#Name").val(data.Name);
@@ -75,14 +68,21 @@ function edit(id) {
 };
 //保存
 function save() {
-    var postData = { "dto": { "Id": $("#Id").val(),  "Name": $("#Name").val(),  "Description": $("#Description").val() } };
+    var saveBtn = this;
+    var postData = { "dto": { "Id": $("#Id").val(), "Name": $("#Name").val(), "Description": $("#Description").val() } };
     $.ajax({
         type: "Post",
-        url: "/Account/EditRole",
+        url: "/SysAction/EditController",
         data: postData,
+        beforeSend: function () {
+            $(saveBtn).attr('disabled', 'disabled'); //让提交按钮失效，以实现防止按钮重复点击                      
+        },
+        complete: function () {
+            $(saveBtn).removeAttr('disabled');
+        },
         success: function (data) {
             if (data.Result == "Success") {
-                loadTables(1,10);
+                loadTables();
                 $("#addRootModal").modal("hide");
             } else {
                 layer.tips(data.Message, "#btnSave", { tips: 4 });
@@ -110,11 +110,11 @@ function deleteMulti() {
         var sendData = { "ids": ids };
         $.ajax({
             type: "Post",
-            url: "/Account/DeleteMutiRole",
+            url: "/SysAction/DeleteMutiController",
             data: sendData,
             success: function (data) {
                 if (data.result == "Success") {
-                    loadTables(1,10)
+                    loadTables();
                     layer.closeAll();
                 }
                 else {
@@ -131,11 +131,11 @@ function deleteSingle(id) {
     }, function () {
         $.ajax({
             type: "POST",
-            url: "/Account/DeleteRole",
+            url: "/SysAction/DeleteController",
             data: { "id": id },
             success: function (data) {
                 if (data.Result == "Success") {
-                    loadTables(1, 10)
+                    loadTables(1, 10);
                     layer.closeAll();
                 }
                 else {

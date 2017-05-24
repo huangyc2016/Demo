@@ -36,15 +36,22 @@ namespace Hyc.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //
             //依赖注入模块
+            #region ===数据库底层操作依赖注入===
             services.AddSingleton<Repository.IMenuRepository, Repository.MenuRepository>();
             services.AddSingleton<Repository.IUserRepository, Repository.UserRepository>();
             services.AddSingleton<Repository.IRoleRepository, Repository.RoleRepository>();
+            services.AddSingleton<Repository.IControllerRepository, Repository.ControllerRepository>();
+            services.AddSingleton<Repository.IActionRepository, Repository.ActionRepository>();
+            #endregion
 
+            #region ===业务逻辑操作依赖注入===
             services.AddSingleton<Service.IMenuService, Service.MenuService>();
             services.AddSingleton<Service.IUserService, Service.UserService>();
             services.AddSingleton<Service.IRoleService, Service.RoleService>();
+            services.AddSingleton<Service.IControllerService, Service.ControllerService>();
+            services.AddSingleton<Service.IActionService, Service.ActionService>();
+            #endregion
 
             //Add Session服务
             services.AddSession();
