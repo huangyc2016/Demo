@@ -23,6 +23,7 @@ namespace Hyc.Admin.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.CurrentMenu = "MenuIndex";
             return View();
         }
 

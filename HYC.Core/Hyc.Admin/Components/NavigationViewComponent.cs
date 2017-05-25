@@ -22,8 +22,23 @@ namespace Hyc.Admin.Components
         public IViewComponentResult Invoke()
         {
             //var userId = HttpContext.Session.GetString("CurrentUserId");
-            //var menus = _menuService.GetMenusByUser(Guid.Parse(userId));
-            var menus = _menuService.GetAllList();
+            //ca
+            int depthNum = 1;
+            var menus = _menuService.GetListByDepthNum(depthNum);
+            foreach (var item in menus)
+            {
+                List<string> codelist = new List<string>();
+                var submenus = _menuService.GetListByParentId(item.Id);
+                foreach (var subitem in submenus)
+                {
+                    codelist.Add(subitem.Code);
+                }
+                if(codelist.Count>0)
+                {
+                    item.Code = string.Join(",", codelist);
+                }
+                item.SubMeunList = submenus;
+            }
             return View(menus);
         }
 

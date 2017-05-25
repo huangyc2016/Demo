@@ -40,7 +40,7 @@ namespace Hyc.Service
             var parent = _menuRepository.RetriveOneEntityById(dto.ParentId);
             if (parent == null)
             {
-                dto.DepthNum = 0;
+                dto.DepthNum = 1;
             }
             else {
                 dto.DepthNum = parent.DepthNum + 1;
@@ -58,6 +58,18 @@ namespace Hyc.Service
         public bool Delete(int Id)
         {
             return _menuRepository.DeleteEntityById(Id);
+        }
+
+        public List<MenuDto> GetListByDepthNum(int depthNum, string connectionString = null)
+        {
+            var menus = _menuRepository.GetListByDepthNum(depthNum);
+            return Mapper.Map<List<MenuDto>>(menus);
+        }
+
+        public List<MenuDto> GetListByParentId(int parentId, string connectionString = null)
+        {
+            var menus = _menuRepository.GetListByParentId(parentId);
+            return Mapper.Map<List<MenuDto>>(menus);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Hyc.Admin.Controllers
         public IActionResult Index()
         {
             ViewData["Title"] = "首页";
+            ViewBag.CurrentMenu = "HomeIndex";
             return View();
         }
 

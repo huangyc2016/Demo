@@ -33,5 +33,21 @@ namespace Hyc.Service
         MenuDto Get(int id);
 
         bool Delete(int Id);
+
+        /// <summary>
+        /// 根据层级编号获取菜单
+        /// </summary>
+        /// <param name="depthNum"></param>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+        List<MenuDto> GetListByDepthNum(int depthNum, string connectionString = null);
+
+        /// <summary>
+        /// 根据父级Id获取菜单
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+        List<MenuDto> GetListByParentId(int parentId, string connectionString = null);
     }
 }

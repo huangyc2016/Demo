@@ -55,5 +55,10 @@ namespace Hyc.Service.Dtos
         /// 菜单备注
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// 子级菜单列表
+        /// </summary>
+        public List<MenuDto> SubMeunList { get; set; }
     }
 }

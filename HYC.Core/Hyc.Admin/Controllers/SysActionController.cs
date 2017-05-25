@@ -24,6 +24,7 @@ namespace Hyc.Admin.Controllers
         // GET: /<controller>/
         public IActionResult ControllerIndex()
         {
+            ViewBag.CurrentMenu = "SysActionControllerIndex";
             return View();
         }
 
@@ -122,6 +123,7 @@ namespace Hyc.Admin.Controllers
             var ControllerList = _controllerService.GetAllList();
             ViewBag.ControllerId = ControllerId;
             ViewData["ControllerList"] = ControllerList;
+            ViewBag.CurrentMenu = "SysactionActionIndex";
             return View();
         }
 

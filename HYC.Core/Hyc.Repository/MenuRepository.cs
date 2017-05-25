@@ -94,6 +94,7 @@ namespace Hyc.Repository
                                             [SortNum] = @SortNum
                                            ,[DepthNum] = @DepthNum
                                            ,[Name] = @Name
+                                           ,[Url] = @Url
                                            ,[Code] = @Code
                                            ,[Type] = @Type
                                            ,[Icon] = @Icon
@@ -118,6 +119,26 @@ namespace Hyc.Repository
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
                 return conn.Query<Menu>("sp_GetMenus", new { ParentId = parentId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public IEnumerable<Menu> GetListByDepthNum(int depthNum, string connectionString = null)
+        {
+            using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
+            {
+                string querySql = @"SELECT [Id],[ParentId],[SortNum],[DepthNum],[Name],[Code],[Type],[Url],[Icon],[Description]
+                                       FROM [dbo].[Menu] WHERE DepthNum=@DepthNum ORDER BY SortNum ASC";
+                return conn.Query<Menu>(querySql, new { DepthNum = depthNum });
+            }
+        }
+
+        public IEnumerable<Menu> GetListByParentId(int parentId, string connectionString = null)
+        {
+            using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
+            {
+                string querySql = @"SELECT [Id],[ParentId],[SortNum],[DepthNum],[Name],[Code],[Type],[Url],[Icon],[Description]
+                                       FROM [dbo].[Menu] WHERE ParentId=@ParentId ORDER BY SortNum ASC";
+                return conn.Query<Menu>(querySql, new { ParentId = parentId });
             }
         }
     }

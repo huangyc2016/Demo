@@ -10,6 +10,8 @@ namespace Hyc.Repository
         IEnumerable<Menu> LoadPageList(int parentId, int startPage, int pageSize, out int rowCount, string connectionString = null);
 
 
-        bool DeleteEntityById(int id, string connectionString = null);
+        IEnumerable<Menu> GetListByDepthNum(int depthNum, string connectionString = null);
+
+        IEnumerable<Menu> GetListByParentId(int parentId, string connectionString = null);
     }
 }

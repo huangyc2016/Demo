@@ -22,6 +22,7 @@ namespace Hyc.Admin.Controllers
         // GET: /<controller>/
         public IActionResult RoleIndex()
         {
+            ViewBag.CurrentMenu = "AccountRoleIndex";
             return View();
         }
 
@@ -117,6 +118,7 @@ namespace Hyc.Admin.Controllers
 
         public IActionResult UserIndex()
         {
+            ViewBag.CurrentMenu = "AccountUserIndex";
             return View();
         }
     }
