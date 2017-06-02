@@ -4,6 +4,7 @@ using System.Text;
 using AutoMapper;
 using Hyc.Model.TableModel;
 using Hyc.Service.Dtos;
+using Hyc.Repository;
 
 namespace Hyc.Service
 {
@@ -19,6 +20,8 @@ namespace Hyc.Service
                 //用户
                 cfg.CreateMap<User, UserDto>();
                 cfg.CreateMap<UserDto, User>();
+                cfg.CreateMap<PageDataView<User>, PageDataView<UserDto>>();
+                cfg.CreateMap<PageDataView<UserDto>, PageDataView<User>>();
 
                 //用户角色
                 cfg.CreateMap<Role, RoleDto>();

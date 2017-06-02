@@ -9,7 +9,7 @@ namespace Hyc.Service
         List<RoleDto> GetAllList();
 
         /// <summary>
-        /// 添加或者修改菜单
+        /// 添加编辑
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>

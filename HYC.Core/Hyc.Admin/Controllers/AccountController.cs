@@ -116,10 +116,33 @@ namespace Hyc.Admin.Controllers
             }
         }
 
+        #region
         public IActionResult UserIndex()
         {
             ViewBag.CurrentMenu = "AccountUserIndex";
             return View();
         }
+
+        [HttpGet]
+        public IActionResult GetUserList(int startPage, int pageSize)
+        {
+            int rowCount = 0;
+            var result = _userService.GetList("",startPage,pageSize);
+            rowCount = result.TotalPageCount;
+            return Json(new
+            {
+                rowCount = rowCount,
+                pageCount = Math.Ceiling(Convert.ToDecimal(rowCount) / pageSize),
+                rows = result.Items,
+            });
+        }
+
+        [HttpGet]
+        public IActionResult GetUserbyId(int Id)
+        {
+            var result = _userService.Get(Id);
+            return Json(result);
+        }
+        #endregion
     }
 }

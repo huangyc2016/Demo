@@ -1,6 +1,4 @@
 ﻿$(function () {
-    $("#j-ControllerId").change(function () { change(); });
-    $("#btnToController").click(function () { toController();});
     $("#btnAdd").click(function () { add(); });
     $("#btnSave").click(function () { save(); });
     $("#btnDelete").click(function () { deleteMulti(); });
@@ -12,16 +10,15 @@
 function loadTables() {
     $("#tableBody").html("");
     $("#checkAll").prop("checked", false);
-    var controllerId = $("#j-ControllerId").val();
-    console.log('a', controllerId);
     $.ajax({
         type: "GET",
-        url: "/SysAction/GetActionList?ControllerId=" + controllerId + "&_t=" + new Date().getTime(),
+        url: "/SystemSet/GetControllerList?_t=" + new Date().getTime(),
         success: function (data) {
             $.each(data.rows, function (i, item) {
                 var tr = "<tr>";
-                tr += "<td align='center'><input type='checkbox' class='checkboxs' value='" + item.id + "'/></td>";
+                tr += "<td align='center'><input type='checkbox' class='checkboxs' value='" + item.Id + "'/></td>";
                 tr += "<td>" + item.Name + "</td>";
+                tr += "<td><a class='btn btn-link' href='javascript:;' onclick='toAction(\"" + item.Id + "\")'>" + item.ActionNum + "</a></td>";
                 tr += "<td>" + (item.Description == null ? "" : item.Description) + "</td>";
                 tr += "<td><button class='btn btn-info btn-xs' href='javascript:;' onclick='edit(\"" + item.Id + "\")'><i class='fa fa-edit'></i> 编辑 </button> <button class='btn btn-danger btn-xs' href='javascript:;' onclick='deleteSingle(\"" + item.Id + "\")'><i class='fa fa-trash-o'></i> 删除 </button> </td>"
                 tr += "</tr>";
@@ -30,16 +27,6 @@ function loadTables() {
         }
     })
 }
-
-function change() {
-    //var self = this;
-    loadTables();
-};
-
-function toController() {
-    window.location.href = "/SysAction/ControllerIndex";
-}
-
 //全选
 function checkAll(obj) {
     $(".checkboxs").each(function () {
@@ -54,29 +41,25 @@ function checkAll(obj) {
 };
 //新增
 function add() {
-    var controllerId = $("#j-ControllerId").val();
-    var controllerName = $("#j-ControllerId option:selected").text(); //获取选中的显示值
-    
     $("#Id").val("0");
-    $("#Title").text("新增功能项");
-    $("#ControllerId").val(controllerId);
-    $("#ControllerName").val(controllerName);
+    $("#Title").text("新增控制器");
     $("#Name").val("");
     $("#Description").val("");
     //弹出新增窗体
     $("#addRootModal").modal("show");
 };
+
+function toAction(id) {
+    window.location.href = "/SystemSet/ActionIndex?ControllerId=" + id + "";
+}
+
 //编辑
 function edit(id) {
-    var controllerId = $("#j-ControllerId").val();
-    var controllerName = $("#j-ControllerId option:selected").text(); //获取选中的显示值
     $.ajax({
         type: "Get",
-        url: "/SysAction/GetActionById?id=" + id + "&_t=" + new Date(),
+        url: "/SystemSet/GetControllerById?id=" + id + "&_t=" + new Date(),
         success: function (data) {
             $("#Id").val(data.Id);
-            $("#ControllerId").val(controllerId);
-            $("#ControllerName").val(controllerName);
             $("#Name").val(data.Name);
             $("#Description").val(data.Description);
             $("#addRootModal").modal("show");
@@ -85,14 +68,21 @@ function edit(id) {
 };
 //保存
 function save() {
-    var postData = { "dto": { "Id": $("#Id").val(), "ControllerId": $("#ControllerId").val(), "Name": $("#Name").val(), "Description": $("#Description").val() } };
+    var saveBtn = this;
+    var postData = { "dto": { "Id": $("#Id").val(), "Name": $("#Name").val(), "Description": $("#Description").val() } };
     $.ajax({
         type: "Post",
-        url: "/SysAction/EditAction",
+        url: "/SystemSet/EditController",
         data: postData,
+        beforeSend: function () {
+            $(saveBtn).attr('disabled', 'disabled'); //让提交按钮失效，以实现防止按钮重复点击                      
+        },
+        complete: function () {
+            $(saveBtn).removeAttr('disabled');
+        },
         success: function (data) {
             if (data.Result == "Success") {
-                loadTables(1, 10);
+                loadTables();
                 $("#addRootModal").modal("hide");
             } else {
                 layer.tips(data.Message, "#btnSave", { tips: 4 });
@@ -120,11 +110,11 @@ function deleteMulti() {
         var sendData = { "ids": ids };
         $.ajax({
             type: "Post",
-            url: "/SysAction/DeleteMutiAction",
+            url: "/SystemSet/DeleteMutiController",
             data: sendData,
             success: function (data) {
                 if (data.result == "Success") {
-                    loadTables(1, 10);
+                    loadTables();
                     layer.closeAll();
                 }
                 else {
@@ -141,7 +131,7 @@ function deleteSingle(id) {
     }, function () {
         $.ajax({
             type: "POST",
-            url: "/SysAction/DeleteAction",
+            url: "/SystemSet/DeleteController",
             data: { "id": id },
             success: function (data) {
                 if (data.Result == "Success") {

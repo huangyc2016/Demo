@@ -65,6 +65,10 @@ namespace Hyc.Admin
                 options.AddPolicy("Passport", policy => policy.Requirements.Add(new PassportRequirement()));
             });
 
+            //通过选项配置获取数据库连接信息
+            services.AddOptions();
+            services.Configure<MyOptions>(Configuration.GetSection("ConnectionStrings"));
+
             // Add framework services.
             services.AddMvc();
 

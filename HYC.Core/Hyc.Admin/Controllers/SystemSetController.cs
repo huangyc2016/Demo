@@ -5,17 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hyc.Service.Dtos;
 using Hyc.Service;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hyc.Admin.Controllers
 {
-    public class SysActionController : BaseController
+    public class SystemSetController : BaseController
     {
+        private readonly ILogger<SystemSetController> _logger;
         private readonly IControllerService _controllerService;
         private readonly IActionService _actionService;
-        public SysActionController(IControllerService controllerService, IActionService actionService)
+        public SystemSetController(ILogger<SystemSetController> logger,IControllerService controllerService, IActionService actionService)
         {
+            this._logger = logger;
             this._controllerService = controllerService;
             this._actionService = actionService;
         }
@@ -24,7 +27,8 @@ namespace Hyc.Admin.Controllers
         // GET: /<controller>/
         public IActionResult ControllerIndex()
         {
-            ViewBag.CurrentMenu = "SysActionControllerIndex";
+            this._logger.LogInformation("THis Is Test");
+            ViewBag.CurrentMenu = "SystemSetControllerIndex";
             return View();
         }
 
@@ -120,10 +124,10 @@ namespace Hyc.Admin.Controllers
         // GET: /<controller>/
         public IActionResult ActionIndex(int ControllerId = 0)
         {
+            ViewBag.CurrentMenu = "SystemSetActionIndex";
             var ControllerList = _controllerService.GetAllList();
             ViewBag.ControllerId = ControllerId;
             ViewData["ControllerList"] = ControllerList;
-            ViewBag.CurrentMenu = "SysactionActionIndex";
             return View();
         }
 

@@ -38,6 +38,14 @@ namespace Hyc.Api
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IUserService, UserService>();
 
+            //通过选项配置
+            services.AddOptions();
+            services.Configure<MyOptions>(myoptions =>
+            {
+                myoptions.sqlConnectionHyc = "Data Source=LAPTOP-5GQAOH98;Initial Catalog=LeoDb;User ID=sa;Password=123456;";
+                myoptions.sqlConnectionLeo = "Data Source=LAPTOP-5GQAOH98;Initial Catalog=LeoDb;User ID=sa;Password=123456;";
+            });
+
             //添加swagger
             services.AddSwaggerGen();
 

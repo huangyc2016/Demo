@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
+using static Hyc.Repository.Common;
 
 namespace Hyc.Repository
 {
@@ -112,6 +113,21 @@ namespace Hyc.Repository
                                     WHERE UserName = @UserName AND Password=@Password";
                 return  conn.QueryFirstOrDefault<User>(querySql, new { UserName = UserName , Password = Password });
             }
+        }
+
+        public  PageDataView<User> GetList(string userName, int page, int pageSize = 10, string connectionString = null)
+        {
+            PageCriteria criteria = new PageCriteria();
+            criteria.Condition = "1=1";
+            if (!string.IsNullOrEmpty(userName))
+                criteria.Condition += string.Format(" and UserName = '{0}'", userName);
+            criteria.CurrentPage = page;
+            criteria.Fields = "*";
+            criteria.PageSize = pageSize;
+            criteria.TableName = "[User] as a";
+            criteria.PrimaryKey = "Id";
+            var r = Common.GetPageData<User>(criteria, null, connectionString);
+            return r;
         }
     }
 }
