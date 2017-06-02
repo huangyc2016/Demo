@@ -94,7 +94,7 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup> 
     <ProjectReference Include="..\Hyc.Service\Hyc.Service.csproj" />
   </ItemGroup>
 </Project>
