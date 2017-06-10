@@ -60,6 +60,7 @@ function add() {
     $("#UserName").val("");
     $("#Name").val("");
     $("#Password").val("");
+    $("#Password1").val("");
     $("#MobileNumber").val("");
     $("#EMail").val("");
     //弹出新增窗体
@@ -67,6 +68,7 @@ function add() {
 };
 //编辑
 function edit(id) {
+    
     $.ajax({
         type: "Get",
         url: "/Account/GetUserById?id=" + id + "&_t=" + new Date(),
@@ -75,15 +77,35 @@ function edit(id) {
             $("#UserName").val(data.UserName);
             $("#Name").val(data.Name);
             $("#Password").val(data.Password);
+            $("#Password1").val(data.Password);
             $("#MobileNumber").val(data.MobileNumber);
             $("#EMail").val(data.EMail);
+
+            var userrolestr = data.RoleIds;
+            $("input[name='Role'][type='checkbox']").each(function () {   
+                var roleidstr = "," + $(this).val() + ",";
+                if (userrolestr.indexOf(roleidstr) > -1) {
+                    $(this).attr('checked', true);
+                }
+            }); 
+            //显示
             $("#addRootModal").modal("show");
         }
     })
 };
 //保存
 function save() {
-    var postData = { "dto": { "Id": $("#Id").val(), "UserName": $("#UserName").val(), "Password": $("#Password").val(), "Name": $("#Name").val(), "MobileNumber": $("#MobileNumber").val(), "EMail": $("#EMail").val() } };
+    var roleids = [];
+    
+    $("input[name='Role'][type='checkbox']:checked").each(function () {
+        roleids.push($(this).val());
+    });
+    var roleIdstr = roleids.toString();
+    if (roleIdstr.length > 0)
+    {
+        roleIdstr = "," + roleIdstr + ",";
+    }
+    var postData = { "dto": { "Id": $("#Id").val(), "UserName": $("#UserName").val(), "Password": $("#Password").val(), "Name": $("#Name").val(), "MobileNumber": $("#MobileNumber").val(), "EMail": $("#EMail").val(), RoleIds: roleIdstr } };
     $.ajax({
         type: "Post",
         url: "/Account/EditUser",

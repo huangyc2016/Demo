@@ -143,6 +143,23 @@ namespace Hyc.Admin.Controllers
             var result = _userService.Get(Id);
             return Json(result);
         }
+
+        public IActionResult EditUser(UserDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new
+                {
+                    Result = "Faild",
+                    Message = GetModelStateError()
+                });
+            }
+            if (_userService.InsertOrUpdate(dto))
+            {
+                return Json(new { Result = "Success", Message = "保存成功" });
+            }
+            return Json(new { Result = "Faild", Message = "保存失败" });
+        }
         #endregion
     }
 }

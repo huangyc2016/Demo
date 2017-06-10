@@ -65,5 +65,10 @@ namespace Hyc.Service.Dtos
         /// 是否删除
         /// </summary>
         public bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// 所拥有的角色Id(一个用户可以有多个角色)
+        /// </summary>
+        public string RoleIds { get; set; }
     }
 }

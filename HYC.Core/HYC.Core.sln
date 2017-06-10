@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyc.Api", "Hyc.Api\Hyc.Api.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyc.Service", "Hyc.Service\Hyc.Service.csproj", "{D17E9C12-3828-40CF-8A6E-382324E4E851}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyc.AppServices", "Hyc.AppServices\Hyc.AppServices.csproj", "{65433078-8903-44CF-8987-EDEFE7D03972}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D17E9C12-3828-40CF-8A6E-382324E4E851}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D17E9C12-3828-40CF-8A6E-382324E4E851}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D17E9C12-3828-40CF-8A6E-382324E4E851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65433078-8903-44CF-8987-EDEFE7D03972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65433078-8903-44CF-8987-EDEFE7D03972}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65433078-8903-44CF-8987-EDEFE7D03972}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65433078-8903-44CF-8987-EDEFE7D03972}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

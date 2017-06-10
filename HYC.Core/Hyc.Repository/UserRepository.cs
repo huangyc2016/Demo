@@ -22,9 +22,9 @@ namespace Hyc.Repository
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
                 string insertSql = @"INSERT INTO [dbo].[User]
-                                            ([UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[LoginTimes],[CreateDate],[IsDeleted])
+                                            ([UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[RoleIds])
                                       VALUES
-                                            (@UserName,@Password,@Name,@EMail,@MobileNumber,@LastLoginTime,@LoginTimes,@CreateDate,@IsDeleted)";
+                                            (@UserName,@Password,@Name,@EMail,@MobileNumber,@RoleIds)";
                 return conn.Execute(insertSql, entity) > 0;
             }
         }
@@ -54,7 +54,7 @@ namespace Hyc.Repository
         {
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
-                string querySql = @"SELECT [Id],[UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[LoginTimes],[CreateDate],[IsDeleted]
+                string querySql = @"SELECT [Id],[UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[LoginTimes],[CreateDate],[IsDeleted],[RoleIds]
                                        FROM [dbo].[User]";
                 return conn.Query<User>(querySql);
             }
@@ -71,15 +71,15 @@ namespace Hyc.Repository
         {
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
-                string querySql = @"SELECT [Id],[UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[LoginTimes],[CreateDate],[IsDeleted]
+                string querySql = @"SELECT [Id],[UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[LoginTimes],[CreateDate],[IsDeleted],[RoleIds]
                                        FROM [dbo].[User]
                                       WHERE Id = @Id";
                 return conn.QueryFirstOrDefault<User>(querySql, new { Id = id });
             }
-            using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
-            {
-                return conn.QueryFirstOrDefault<User>("sp_GetUsers", new { Id = id }, commandType: CommandType.StoredProcedure);
-            }
+            //using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
+            //{
+            //    return conn.QueryFirstOrDefault<User>("sp_GetUsers", new { Id = id }, commandType: CommandType.StoredProcedure);
+            //}
         }
        
         /// <summary>
@@ -99,6 +99,7 @@ namespace Hyc.Repository
                                            ,[EMail] = @EMail
                                            ,[MobileNumber] = @MobileNumber
                                            ,[IsDeleted] = @IsDeleted
+                                           ,[RoleIds]=@RoleIds
                                       WHERE Id = @Id";
                 return conn.Execute(updateSql, entity) > 0;
             }
@@ -108,7 +109,7 @@ namespace Hyc.Repository
         {
             using (IDbConnection conn = DataBaseConfig.GetSqlConnection(connectionString))
             {
-                string querySql = @"SELECT [Id],[UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[LoginTimes],[CreateDate],[IsDeleted]
+                string querySql = @"SELECT [Id],[UserName],[Password],[Name],[EMail],[MobileNumber],[LastLoginTime],[LoginTimes],[CreateDate],[IsDeleted],[RoleIds]
                                     FROM [dbo].[User]
                                     WHERE UserName = @UserName AND Password=@Password";
                 return  conn.QueryFirstOrDefault<User>(querySql, new { UserName = UserName , Password = Password });
